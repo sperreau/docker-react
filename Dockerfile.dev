@@ -5,15 +5,12 @@
 #docker run -p 3000:3000 -v /home/node/app/node_modules -v ~/frontend:/home/node/app sperreau/frontend
 from node:16-alpine
 
-USER node
-
-RUN mkdir -p /home/node/app
-WORKDIR /home/node/app
+WORKDIR '/app'
  
-COPY --chown=node:node ./package.json ./
+COPY package.json .
 RUN npm install
 
 #Teeechnically this copy cmd is replaced by the volume, but this is still useful if ever we make the call without docker-compose
-COPY --chown=node:node ./ ./
+COPY . .
  
 CMD ["npm", "start"]

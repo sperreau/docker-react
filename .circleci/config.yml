@@ -17,10 +17,25 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
-
+  build-dev-docker-container:
+    docker:
+      - image: cimg/node:16.0.0
+    steps:
+      - docker build -t sperreau/docker-react -f Dockerfile.dev .     
+  run-docker-container:
+    docker:
+      - image: sperreau/docker-react
+    steps:
+      - docker run -e CI=true sperreau/docker-react npm run test
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   say-hello-workflow:
     jobs:
       - say-hello
+  build-dev-docker-container:
+    jobs:
+      - build-dev-docker-container
+  run-docker-workflow:
+    jobs:
+      - run-docker-container

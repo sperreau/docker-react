@@ -11,7 +11,6 @@ RUN mkdir -p /home/node/app
 WORKDIR /home/node/app
 
 COPY --chown=node:node ./package.json ./
-RUN npm cache clean --force
 
 RUN npm install
 

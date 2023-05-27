@@ -11,6 +11,8 @@ RUN mkdir -p /home/node/app
 WORKDIR /home/node/app
 
 COPY --chown=node:node ./package.json ./
+RUN npm cache clean --force
+
 RUN npm install
 
 #Teeechnically this copy cmd is replaced by the volume, but this is still useful if ever we make the call without docker-compose

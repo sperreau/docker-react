@@ -1,0 +1,25 @@
+sudo: required
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - docker build -t sperreau/docker-react -f Dockerfile.dev . 
+
+script:
+  - docker run -e CI=true sperreau/docker-react npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-2
+  app: "docker-react-tests"
+  env: "Docker-react-tests-env"
+  bucket_name: "elasticbeanstalk-us-east-2-178297618801"
+  bucket_path: "docker-react-tests"
+  on:
+    branch: master
+    aws_key_id: $aws_access_key
+    secret_access_key: "$aws_secret_key"
+
+

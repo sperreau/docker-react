@@ -1,13 +1,20 @@
-#might need node:16-alpine
+#This docker command is what we're doing to actually run the updated volumes. 
+# The two -v are holding "pointer" references to the existing things on board. 
+# The 1st -v says that we are using this as a placeholder for what's in the container 
+# The 2nd -v says that we're mapping the first folder (local) to the second folder (in the container) 
+#docker run -p 3000:3000 -v /home/node/app/node_modules -v ~/frontend:/home/node/app sperreau/frontend
 from node:16-alpine
 
 USER node
 
 RUN mkdir -p /home/node/app
 WORKDIR /home/node/app
- 
+
 COPY --chown=node:node ./package.json ./
+
 RUN npm install
+
+#Teeechnically this copy cmd is replaced by the volume, but this is still useful if ever we make the call without docker-compose
 COPY --chown=node:node ./ ./
  
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]

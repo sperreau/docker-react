@@ -12,6 +12,7 @@ RUN npm run build
 
 #--------- nginx job -----------
 FROM nginx
+EXPOSE 80
 #nginx requires us to assign things here. 
 COPY --from=build-step /home/node/app/build /usr/share/nginx/html
 #nginx base image has a default start command to start the nginx server. 
